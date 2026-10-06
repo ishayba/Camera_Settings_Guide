@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" class="transition-colors duration-300">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    
+    <!-- PWA / Mobile Web App Meta Tags -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1e293b" media="(prefers-color-scheme: dark)">
+    <meta name="description" content="מדריך הגדרות מצלמה לצלמים מתחילים - נגיש ומותאם אישית">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>מדריך הגדרות מצלמה</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for standard icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Rubik', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        darkPrimary: '#fbbf24',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --font-multiplier: 1;
+        }
+
+        html {
+            font-size: calc(16px * var(--font-multiplier));
+            scroll-behavior: smooth;
+        }
+
+        body {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Focus outlines for accessibility */
+        *:focus-visible {
+            outline: 3px solid #3b82f6;
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+        .dark *:focus-visible {
+            outline: 3px solid #fbbf24;
+        }
+
+        /* 
+         * HIGH CONTRAST MODE OVERRIDES
+         * Overrides background, text, and border colors to force maximum contrast.
+         */
+        html.hc body {
+            background-color: #000000 !important;
+            color: #ffffff !important;
+        }
+        html.hc .hc-bg-card {
+            background-color: #000000 !important;
+            border: 2px solid #ffff00 !important;
+        }
+        html.hc .hc-text {
+            color: #ffffff !important;
+        }
+        html.hc .hc-text-primary {
+            color: #ffff00 !important;
+        }
+        html.hc .hc-icon-bg {
+            background-color: #000000 !important;
+            border: 2px solid #ffff00 !important;
+            color: #ffff00 !important;
+        }
+        html.hc *:focus-visible {
+            outline: 4px solid #00ffff !important;
+        }
+
+        /* Accordion Animations */
+        details > summary {
+            list-style: none;
+            cursor: pointer;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+        
+        .tip-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease-out, padding 0.3s ease;
+        }
+        details[open] .tip-content {
+            grid-template-rows: 1fr;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .tip-inner {
+            overflow: hidden;
+        }
+
+        summary .chevron {
+            transition: transform 0.3s ease;
+        }
+        details[open] summary .chevron {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-900 dark:bg-slate-900 dark:text-gray-100 min-h-screen flex flex-col font-sans antialiased pb-24">
+
+    <!-- Main Content Container -->
+    <main class="w-full max-w-4xl mx-auto px-4 pt-10 flex flex-col gap-8 flex-grow relative">
+        
+        <!-- Header -->
+        <header class="text-center space-y-4">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white dark:bg-slate-800 shadow-lg border-4 border-primary dark:border-darkPrimary hc-icon-bg" aria-hidden="true">
+                <i class="fas fa-camera-retro text-4xl text-primary dark:text-darkPrimary hc-text-primary"></i>
+            </div>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight hc-text" tabindex="-1">
+                הגדרות צילום
+            </h1>
+            <p class="text-gray-600 dark:text-gray-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed hc-text">
+                המדריך המהיר למתחילים. הרשימה ממוינת לפי סדר אלפביתי. לחצו על שורה כדי לקרוא טיפ מקצועי.
+            </p>
+        </header>
+
+        <!-- Data List Container -->
+        <div class="w-full flex flex-col gap-4">
+            
+            <!-- Desktop Table Header (Hidden on Mobile) -->
+            <div class="hidden md:grid md:grid-cols-12 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-sm p-4 font-bold text-lg text-primary dark:text-darkPrimary hc-bg-card hc-text-primary" aria-hidden="true">
+                <div class="col-span-4 lg:col-span-5 pr-2">מצב צילום</div>
+                <div class="col-span-2 text-center">צמצם (Aperture)</div>
+                <div class="col-span-3 text-center">תריס (Shutter)</div>
+                <div class="col-span-2 text-center">רגישות (ISO)</div>
+            </div>
+
+            <div id="settings-container" class="flex flex-col gap-4" role="list">
+                <!-- Data will be injected here via JavaScript -->
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Accessibility Panel (Hidden by default) -->
+    <div id="a11y-panel" class="fixed bottom-24 right-6 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-slate-600 p-4 w-64 z-[9998] transition-all duration-300 transform scale-0 opacity-0 origin-bottom-right flex flex-col gap-4 hc-bg-card" aria-label="תפריט הגדרות נגישות" aria-hidden="true">
+        <h2 class="font-bold text-lg text-gray-800 dark:text-gray-100 hc-text text-center border-b border-gray-200 dark:border-slate-700 pb-2">הגדרות נגישות</h2>
+        
+        <div class="grid grid-cols-2 gap-3">
+            <!-- Text Size -->
+            <button id="btn-text-inc" class="flex flex-col items-center justify-center p-3 rounded-xl bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors hc-icon-bg" aria-label="הגדל טקסט">
+                <span class="font-bold text-xl">A+</span>
+                <span class="text-xs mt-1">הגדל</span>
+            </button>
+            <button id="btn-text-dec" class="flex flex-col items-center justify-center p-3 rounded-xl bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors hc-icon-bg" aria-label="הקטן טקסט">
+                <span class="font-bold text-sm">A-</span>
+                <span class="text-xs mt-1">הקטן</span>
+            </button>
+            
+            <!-- Themes -->
+            <button id="btn-theme-toggle" class="flex flex-col items-center justify-center p-3 rounded-xl bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors hc-icon-bg" aria-label="החלף מצב תצוגה יום/לילה">
+                <i class="fas fa-moon dark:hidden text-lg text-slate-800"></i>
+                <i class="fas fa-sun hidden dark:block text-lg text-yellow-400"></i>
+                <span class="text-xs mt-1 dark:hidden">לילה</span>
+                <span class="text-xs mt-1 hidden dark:block">יום</span>
+            </button>
+            <button id="btn-hc-toggle" class="flex flex-col items-center justify-center p-3 rounded-xl bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors hc-icon-bg" aria-label="הפעל מצב ניגודיות גבוהה">
+                <i class="fas fa-circle-half-stroke text-lg"></i>
+                <span class="text-xs mt-1 text-center">ניגודיות<br>גבוהה</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Accessibility FAB -->
+    <button id="a11y-fab" class="fixed bottom-6 right-6 w-14 h-14 bg-primary dark:bg-darkPrimary text-white dark:text-slate-900 rounded-full shadow-xl flex items-center justify-center text-2xl z-[9999] hover:scale-110 transition-transform focus-visible:ring-4 focus-visible:ring-offset-2 hc-icon-bg" aria-label="פתח תפריט נגישות" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-universal-access"></i>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // ----------------------------------------------------
+            // 1. Data Source (Sorted strictly alphabetically in Hebrew)
+            // ----------------------------------------------------
+            const cameraData = [
+                { id: "fireworks", mode: "זיקוקים", en: "Fireworks", icon: "fa-fire", aperture: "f/9", shutter: "6s", iso: "200", tip: "חובה להשתמש בחצובה. לחצו על המחשף רגע לפני שהזיקוק מתפוצץ, והשאירו את התריס פתוח למספר שניות כדי לקלוט את כל שובל האור." },
+                { id: "indoor", mode: "חלל סגור", en: "Indoor", icon: "fa-home", aperture: "f/2.8", shutter: "1/90", iso: "3200", tip: "חפשו מקורות אור טבעיים. בתוך מבנה חשוך, עדיף להעלות ISO ולקבל תמונה מעט רועשת מאשר תמונה מטושטשת עקב תנועה." },
+                { id: "night", mode: "לילה", en: "Night", icon: "fa-moon", aperture: "f/1.8", shutter: "1/30", iso: "12800", tip: "בגלל מהירות התריס האיטית מומלץ מאוד להשתמש בחצובה או להשעין את המצלמה על משטח יציב כדי למנוע טשטוש בתמונה." },
+                { id: "macro", mode: "מאקרו", en: "Macro", icon: "fa-leaf", aperture: "f/16", shutter: "1/160", iso: "320", tip: "בצילום תקריב עומק השדה הוא מילימטרי. מומלץ להשתמש בפוקוס ידני, ולסגור צמצם (f/16) כדי שיותר חלקים מהאובייקט יהיו חדים." },
+                { id: "product", mode: "מוצר", en: "Product", icon: "fa-box", aperture: "f/22", shutter: "1/60", iso: "100", tip: "השתמשו בתאורה רכה ומפוזרת כדי למנוע צללים קשים. צמצם סגור מאוד (f/22) מבטיח שכל פרט קטן במוצר יהיה במיקוד חזק." },
+                { id: "landscape", mode: "נוף", en: "Landscape", icon: "fa-mountain", aperture: "f/11", shutter: "1/160", iso: "100", tip: "צמצם סגור (f/8 עד f/11) שומר על פוקוס לכל אורך הפריים. השתמשו בחצובה ובטיימר כדי למנוע רעידות מהלחיצה על המצלמה." },
+                { id: "action", mode: "ספורט", en: "Action", icon: "fa-running", aperture: "f/8.0", shutter: "1/1600", iso: "1600", tip: "השתמשו בפוקוס עוקב (AF-C או AI Servo) וצילום רציף (Burst Mode) כדי להבטיח שהאובייקט יישאר חד למרות התנועה המהירה." },
+                { id: "portrait", mode: "פורטרט", en: "Portrait", icon: "fa-user", aperture: "f/2.2", shutter: "1/200", iso: "100", tip: "התמקדו תמיד בעיניים של המצולם. צמצם פתוח (מספר f נמוך) ייצור עומק שדה רדוד ויטשטש את הרקע בצורה עדינה (אפקט בוקה)." },
+                { id: "street", mode: "רחוב", en: "Street", icon: "fa-walking", aperture: "f/5.6", shutter: "1/500", iso: "400", tip: "ברחוב הדברים קורים מהר. שמרו על מהירות תריס גבוהה ו-ISO מותאם כדי להקפיא תנועה ספונטנית. היו דרוכים ומוכנים תמיד." },
+                { id: "golden_hour", mode: "שעת הזהב", en: "Golden Hour", icon: "fa-sun", aperture: "f/5.6", shutter: "1/125", iso: "160", tip: "כוונו את הגדרת איזון הלובן (White Balance) במצלמה למצב 'צל' או 'ענן' כדי להעצים עוד יותר את הגוונים החמים של השמש." }
+            ];
+
+            // ----------------------------------------------------
+            // 2. Render UI
+            // ----------------------------------------------------
+            const container = document.getElementById('settings-container');
+
+            cameraData.forEach((item, index) => {
+                const detailEl = document.createElement('details');
+                detailEl.className = "group bg-white dark:bg-slate-800 rounded-xl shadow-md border border-gray-200 dark:border-slate-700 overflow-hidden transition-all duration-300 hc-bg-card";
+                detailEl.setAttribute("role", "listitem");
+                
+                detailEl.innerHTML = `
+                    <summary class="md:grid md:grid-cols-12 flex flex-col p-4 focus-visible:bg-blue-50 dark:focus-visible:bg-slate-700 outline-none transition-colors" 
+                             aria-expanded="false" 
+                             aria-controls="tip-${item.id}">
+                        
+                        <!-- Mobile View Wrapper & Desktop First Column -->
+                        <div class="col-span-4 lg:col-span-5 flex items-center justify-between md:justify-start w-full">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 flex items-center justify-center rounded-full bg-blue-50 dark:bg-slate-700 text-primary dark:text-darkPrimary flex-shrink-0 hc-icon-bg" aria-hidden="true">
+                                    <i class="fas ${item.icon} text-xl"></i>
+                                </div>
+                                <div>
+                                    <h2 class="font-bold text-xl text-gray-900 dark:text-white leading-tight hc-text">${item.mode}</h2>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400 font-serif italic hc-text">${item.en}</span>
+                                </div>
+                            </div>
+                            <!-- Mobile-only Chevron -->
+                            <i class="fas fa-chevron-down text-gray-400 md:hidden chevron ml-2 hc-text" aria-hidden="true"></i>
+                        </div>
+
+                        <!-- Data Columns -->
+                        <div class="col-span-8 lg:col-span-7 grid grid-cols-3 gap-2 mt-4 md:mt-0 items-center">
+                            
+                            <div class="flex flex-col md:block items-center justify-center md:border-r border-gray-200 dark:border-slate-600 border-opacity-50">
+                                <span class="text-[11px] uppercase text-gray-500 dark:text-gray-400 md:hidden mb-1 font-bold hc-text">צמצם</span>
+                                <span class="font-mono font-medium text-lg text-gray-800 dark:text-gray-200 hc-text" aria-label="צמצם ${item.aperture}">${item.aperture}</span>
+                            </div>
+                            
+                            <div class="flex flex-col md:block items-center justify-center md:border-r border-gray-200 dark:border-slate-600 border-opacity-50">
+                                <span class="text-[11px] uppercase text-gray-500 dark:text-gray-400 md:hidden mb-1 font-bold hc-text">תריס</span>
+                                <span class="font-mono font-medium text-lg text-gray-800 dark:text-gray-200 hc-text" dir="ltr" aria-label="מהירות תריס ${item.shutter}">${item.shutter}</span>
+                            </div>
+                            
+                            <div class="flex flex-col md:block items-center justify-center relative">
+                                <span class="text-[11px] uppercase text-gray-500 dark:text-gray-400 md:hidden mb-1 font-bold hc-text">ISO</span>
+                                <span class="font-mono font-medium text-lg text-gray-800 dark:text-gray-200 hc-text" aria-label="ISO ${item.iso}">${item.iso}</span>
+                                <!-- Desktop-only Chevron -->
+                                <i class="fas fa-chevron-down text-gray-400 hidden md:block absolute left-2 top-1/2 -translate-y-1/2 chevron hc-text" aria-hidden="true"></i>
+                            </div>
+
+                        </div>
+                    </summary>
+
+                    <!-- Expandable Tip Section -->
+                    <div class="tip-content bg-blue-50/50 dark:bg-slate-900/50 px-4" id="tip-${item.id}">
+                        <div class="tip-inner text-gray-800 dark:text-gray-200 flex items-start gap-3 border-t border-blue-100 dark:border-slate-700 pt-4">
+                            <i class="fas fa-lightbulb text-primary dark:text-darkPrimary mt-1 text-lg hc-text-primary" aria-hidden="true"></i>
+                            <p class="leading-relaxed text-base hc-text pb-2">
+                                <strong class="text-primary dark:text-darkPrimary block mb-1 hc-text-primary">טיפ צילום:</strong>
+                                ${item.tip}
+                            </p>
+                        </div>
+                    </div>
+                `;
+
+                // Update aria-expanded when toggled
+                detailEl.addEventListener('toggle', () => {
+                    const summary = detailEl.querySelector('summary');
+                    summary.setAttribute('aria-expanded', detailEl.open);
+                });
+
+                container.appendChild(detailEl);
+            });
+
+            // ----------------------------------------------------
+            // 3. Accessibility FAB & Menu Logic
+            // ----------------------------------------------------
+            const fab = document.getElementById('a11y-fab');
+            const a11yPanel = document.getElementById('a11y-panel');
+            let isPanelOpen = false;
+
+            // Simple robust click toggle
+            fab.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent document click from immediately closing it
+                isPanelOpen = !isPanelOpen;
+                
+                if (isPanelOpen) {
+                    a11yPanel.classList.remove('scale-0', 'opacity-0');
+                    a11yPanel.classList.add('scale-100', 'opacity-100');
+                    a11yPanel.setAttribute('aria-hidden', 'false');
+                    fab.setAttribute('aria-expanded', 'true');
+                    fab.querySelector('i').classList.replace('fa-universal-access', 'fa-times');
+                } else {
+                    a11yPanel.classList.remove('scale-100', 'opacity-100');
+                    a11yPanel.classList.add('scale-0', 'opacity-0');
+                    a11yPanel.setAttribute('aria-hidden', 'true');
+                    fab.setAttribute('aria-expanded', 'false');
+                    fab.querySelector('i').classList.replace('fa-times', 'fa-universal-access');
+                }
+            });
+
+            // Close panel when clicking outside
+            document.addEventListener('click', (e) => {
+                if (isPanelOpen && !a11yPanel.contains(e.target) && e.target !== fab) {
+                    fab.click(); // trigger the close logic
+                }
+            });
+
+            // Avoid closing when clicking inside the panel
+            a11yPanel.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            // ----------------------------------------------------
+            // 4. Themes & Contrast Management
+            // ----------------------------------------------------
+            const htmlElement = document.documentElement;
+            const btnThemeToggle = document.getElementById('btn-theme-toggle');
+            const btnHcToggle = document.getElementById('btn-hc-toggle');
+            
+            // Setup Initial Theme
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    htmlElement.classList.add('dark');
+                    localStorage.theme = 'dark';
+                } else {
+                    htmlElement.classList.remove('dark');
+                    localStorage.theme = 'light';
+                }
+            }
+
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+
+            btnThemeToggle.addEventListener('click', () => {
+                if (htmlElement.classList.contains('dark')) {
+                    setTheme('light');
+                } else {
+                    setTheme('dark');
+                }
+            });
+
+            // Setup High Contrast
+            let isHC = localStorage.getItem('hc_mode') === 'true';
+            if (isHC) htmlElement.classList.add('hc');
+
+            btnHcToggle.addEventListener('click', () => {
+                isHC = !isHC;
+                if (isHC) {
+                    htmlElement.classList.add('hc');
+                    localStorage.setItem('hc_mode', 'true');
+                } else {
+                    htmlElement.classList.remove('hc');
+                    localStorage.setItem('hc_mode', 'false');
+                }
+            });
+
+            // ----------------------------------------------------
+            // 5. Font Size Management
+            // ----------------------------------------------------
+            const btnInc = document.getElementById('btn-text-inc');
+            const btnDec = document.getElementById('btn-text-dec');
+            let fontMultiplier = parseFloat(localStorage.getItem('fontMultiplier')) || 1.0;
+
+            function applyFontSize() {
+                htmlElement.style.setProperty('--font-multiplier', fontMultiplier);
+                localStorage.setItem('fontMultiplier', fontMultiplier);
+            }
+            applyFontSize();
+
+            btnInc.addEventListener('click', () => {
+                if (fontMultiplier < 1.4) {
+                    fontMultiplier += 0.1;
+                    applyFontSize();
+                }
+            });
+
+            btnDec.addEventListener('click', () => {
+                if (fontMultiplier > 0.8) {
+                    fontMultiplier -= 0.1;
+                    applyFontSize();
+                }
+            });
+
+            // ----------------------------------------------------
+            // 6. Dummy Service Worker for PWA 
+            // ----------------------------------------------------
+            if ('serviceWorker' in navigator) {
+                const swCode = `
+                    self.addEventListener('install', (e) => { self.skipWaiting(); });
+                    self.addEventListener('activate', (e) => { e.waitUntil(clients.claim()); });
+                    self.addEventListener('fetch', (e) => { });
+                `;
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(swUrl).catch(() => {});
+            }
+        });
+    </script>
+</body>
+</html>
